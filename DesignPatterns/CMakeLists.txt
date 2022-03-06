@@ -1,2 +1,4 @@
 add_subdirectory(Builder)
 add_subdirectory(BuilderFacet)
+add_subdirectory(FactoryMethod)
+add_subdirectory(AbstractFactory)
