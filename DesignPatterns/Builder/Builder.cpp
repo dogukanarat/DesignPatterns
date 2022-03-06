@@ -1,22 +1,9 @@
-/**
- * @file Builder.cpp
- * @author Dogukan Fikri Arat
- * @brief
- * @version 0.1
- * @date 2022-01-22
- *
- * @copyright Copyright (c) 2022
- *
- */
-#include "Library/Builder.h"
-
 #include <iostream>
 #include <string>
 #include <vector>
 #include <sstream>
 #include <memory>
 
-using namespace Library;
 using namespace std;
 
 struct HtmlBuilder;
@@ -29,9 +16,9 @@ struct HtmlElement
     const size_t indent_size = 2;
 
     HtmlElement() {}
-    HtmlElement(const string &name, const string &text)
+    HtmlElement(const string& name, const string& text)
         : name(name),
-          text(text)
+        text(text)
     {
     }
 
@@ -43,7 +30,7 @@ struct HtmlElement
         if (text.size() > 0)
             oss << string(indent_size * (indent + 1), ' ') << text << endl;
 
-        for (const auto &e : elements)
+        for (const auto& e : elements)
             oss << e.str(indent + 1);
 
         oss << i << "</" << name << ">" << endl;
@@ -64,17 +51,17 @@ struct HtmlBuilder
     }
 
     // void to start with
-    HtmlBuilder &add_child(string child_name, string child_text)
+    HtmlBuilder& add_child(string child_name, string child_text)
     {
-        HtmlElement e{child_name, child_text};
+        HtmlElement e{ child_name, child_text };
         root.elements.emplace_back(e);
         return *this;
     }
 
     // pointer based
-    HtmlBuilder *add_child_2(string child_name, string child_text)
+    HtmlBuilder* add_child_2(string child_name, string child_text)
     {
-        HtmlElement e{child_name, child_text};
+        HtmlElement e{ child_name, child_text };
         root.elements.emplace_back(e);
         return this;
     }
@@ -85,7 +72,7 @@ struct HtmlBuilder
     HtmlElement root;
 };
 
-int demo()
+int main(void)
 {
     // <p>hello</p>
     auto text = "hello";
@@ -96,7 +83,7 @@ int demo()
     printf("<p>%s</p>", text);
 
     // <ul><li>hello</li><li>world</li></ul>
-    string words[] = {"hello", "world"};
+    string words[] = { "hello", "world" };
     ostringstream oss;
     oss << "<ul>";
     for (auto w : words)
@@ -105,15 +92,16 @@ int demo()
     cout << oss.str().c_str();
 
     // easier
-    HtmlBuilder builder{"ul"};
+    HtmlBuilder builder{ "ul" };
     builder.add_child("li", "hello").add_child("li", "world");
     cout << builder.str() << endl;
 
     auto builder2 = HtmlElement::build("ul")
-                        ->add_child_2("li", "hello")
-                        ->add_child_2("li", "world");
+        ->add_child_2("li", "hello")
+        ->add_child_2("li", "world");
     cout << builder2 << endl;
 
     getchar();
+
     return 0;
 }
